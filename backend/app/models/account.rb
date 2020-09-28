@@ -8,7 +8,7 @@ class Account < ApplicationRecord
   validates :balance, presence: true, numericality: { greater_than: 0, only_integer: true }
 
   belongs_to :user
-  has_many :expenses, inverse: true
+  has_many :expenses, inverse_of: :account
 end
 
 # == Schema Information

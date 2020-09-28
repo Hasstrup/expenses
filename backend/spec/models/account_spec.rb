@@ -1,9 +1,21 @@
 # frozen_string_literal: true
 
-FactoryBot.define do
-    factory :user do
-      name { "Test User" } 
+require 'rails_helper'
+
+RSpec.describe Account, type: :model do
+  context "Validations" do
+    it "builds a valid account" do
+      expect(FactoryBot.build(:account)).to be_valid
     end
+
+    it { should validate_presence_of(:name) }
+    it { should validate_numericality_of(:balance) }
+    it { should validate_numericality_of(:number) }
+  end
+
+  context "associations" do
+    it { should belong_to(:user) }
+  end
 end
 
 
