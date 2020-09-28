@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class ExpensesController < ApplicationController
-
   def index
     render json: Expense.order(date: :desc)
   end

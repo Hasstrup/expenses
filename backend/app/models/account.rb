@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Account < ApplicationRecord
+  acts_as_paranoid
+
   validates :name, presence: true
   validates_numericality_of :number
   validates :balance, presence: true, numericality: { greater_than: 0, only_integer: true }

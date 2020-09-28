@@ -3,6 +3,17 @@ class Expense < ApplicationRecord
   validates :amount, numericality: { greater_than: 0, only_integer: true }
 
   belongs_to :account
+  after_save :balance_account
+
+  def balance_account
+    ActiveRecord::Base.transaction do
+      if account_id_changed?
+        previous_account = Account.find(account_id_was) if account_id_was
+        account.update!(balance: account.balance - amount)
+        previous_account&.update!(balance: previous_account.balance + amount)
+      end
+    end
+  end
 end
 
 # == Schema Information
