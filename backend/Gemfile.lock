@@ -69,6 +69,11 @@ GEM
     crass (1.0.6)
     diff-lcs (1.4.4)
     erubi (1.9.0)
+    factory_bot (5.0.2)
+      activesupport (>= 4.2.0)
+    factory_bot_rails (5.0.2)
+      factory_bot (~> 5.0.2)
+      railties (>= 4.2.0)
     fast_jsonapi (1.5)
       activesupport (>= 4.2)
     ffi (1.13.1)
@@ -178,6 +183,8 @@ GEM
     rubocop-rspec (1.30.1)
       rubocop (>= 0.60.0)
     ruby-progressbar (1.10.1)
+    shoulda-matchers (4.4.1)
+      activesupport (>= 4.2.0)
     spring (2.1.1)
     spring-watcher-listen (2.0.1)
       listen (>= 2.7, < 4.0)
@@ -209,6 +216,7 @@ DEPENDENCIES
   annotate
   bootsnap (>= 1.4.2)
   byebug
+  factory_bot_rails
   fast_jsonapi
   listen (~> 3.2)
   paranoia
@@ -218,6 +226,7 @@ DEPENDENCIES
   rails (~> 6.0.3, >= 6.0.3.3)
   rspec-rails
   rubocop-airbnb
+  shoulda-matchers (~> 4.0)
   spring
   spring-watcher-listen (~> 2.0.0)
   sqlite3 (~> 1.4)
