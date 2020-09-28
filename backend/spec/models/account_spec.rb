@@ -18,7 +18,6 @@ RSpec.describe Account, type: :model do
   end
 end
 
-
 # == Schema Information
 #
 # Table name: accounts

@@ -5,8 +5,7 @@ class ExpensesController < ApplicationController
     render json: Expense.order(date: :desc)
   end
 
-  def show
-    expense = Expense.find(params[:id])
+  def shows
     render json: expense
   end
 
@@ -16,19 +15,21 @@ class ExpensesController < ApplicationController
   end
 
   def update
-    expense = Expense.find(params[:id])
     expense.update!(expense_params)
     render json: expense
   end
 
   def destroy
-    expense = Expense.find(params[:id])
-    expense.destroy
+    head :no_content if expense.destroy
   end
 
   private
 
   def expense_params
     params.permit(:amount, :date, :description)
+  end
+
+  def expense
+    @expense ||= Expense.find(params[:id])
   end
 end

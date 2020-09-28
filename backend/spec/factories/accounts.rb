@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-    factory :account do
-      name { "Test account" }
-      number { 1234567890 }
-      
+  factory :account do
+    name { "Test account" }
+    number { 1234567890 }
 
-      association :user, factory: :user
-    end
+    association :user, factory: :user
+  end
 end
