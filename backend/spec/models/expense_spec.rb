@@ -1,8 +1,9 @@
-class Expense < ApplicationRecord
-  validates :amount, :date, :description, presence: true
-  validates :amount, numericality: { greater_than: 0, only_integer: true }
+require "rails_helper"
 
-  belongs_to :account
+RSpec.describe Expense, type: :model do
+  it "i" do
+    expect(true).to eq(true)
+  end
 end
 
 # == Schema Information

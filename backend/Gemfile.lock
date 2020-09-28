@@ -210,7 +210,7 @@ DEPENDENCIES
   pry
   puma (~> 4.1)
   rails (~> 6.0.3, >= 6.0.3.3)
-  rspec-rails (~> 4.0.0)
+  rspec-rails
   rubocop-airbnb
   spring
   spring-watcher-listen (~> 2.0.0)

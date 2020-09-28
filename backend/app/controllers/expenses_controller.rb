@@ -1,8 +1,6 @@
+# frozen_string_literal: true
+
 class ExpensesController < ApplicationController
-  rescue_from ActiveRecord::RecordInvalid do |error|
-    expense = error.record
-    render json: expense.errors, status: :bad_request
-  end
 
   def index
     render json: Expense.order(date: :desc)
