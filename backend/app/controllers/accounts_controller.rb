@@ -19,7 +19,7 @@ class AccountsController < ApplicationController
     render json: AccountSerializer.new(account)
   end
 
-  def delete
+  def destroy
     head :no_content if account.destroy
   end
 
