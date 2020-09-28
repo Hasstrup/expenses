@@ -5,11 +5,11 @@ class Expense < ApplicationRecord
   validates :amount, numericality: { greater_than: 0, only_integer: true }
 
   belongs_to :account
-  after_create :balance_account
+  before_create :balance_account!
 
   private
 
-  def balance_account
+  def balance_account!
     ActiveRecord::Base.transaction do
       account.update!(balance: account.balance - amount)
       # moving this to controller

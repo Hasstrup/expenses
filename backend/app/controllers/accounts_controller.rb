@@ -30,10 +30,10 @@ class AccountsController < ApplicationController
   end
 
   def user
-    @user ||= User.find(params[:id])
+    @user ||= User.find(params[:user_id])
   end
 
   def account
-    @account ||= user.accounts.find(params[:account_id])
+    @account ||= user.accounts.find(params[:id])
   end
 end

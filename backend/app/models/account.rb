@@ -5,7 +5,11 @@ class Account < ApplicationRecord
 
   validates :name, presence: true
   validates_numericality_of :number
-  validates :balance, presence: true, numericality: { greater_than: 0, only_integer: true }
+  validates :balance, presence: true, numericality: {
+    greater_than: 0,
+    only_integer: true,
+    message: "Balance can't be negative",
+  }
 
   belongs_to :user
   has_many :expenses, inverse_of: :account
