@@ -1,4 +1,6 @@
-export default async function request(url, options = {}) {
+import config from './config'
+
+export default async function request(path, options = {}) {
   const defaultHeaders = {
     Accept: "application/json",
   };
@@ -19,7 +21,7 @@ export default async function request(url, options = {}) {
     headers,
   };
 
-  const response = await fetch(url, options);
+  const response = await fetch(`${config[process.env.NODE_ENV].apiUrl}/${path}`, options);
 
   const isJson =
     response.headers.get("Content-Type") &&

@@ -62,6 +62,7 @@ function useNotifications() {
   const context = useContext(NotificationContext);
   return {
     notifyError: (message) => context.notify({ type: "error", message }),
+    notifyInfo: (message) => context.notify({ type: "info", message })
   };
 }
 
