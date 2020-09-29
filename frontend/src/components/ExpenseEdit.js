@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import LoadingIndicator from "./LoadingIndicator";
 import ErrorMessage from "./ErrorMessage";
@@ -6,6 +6,7 @@ import request from "../request";
 import styles from "./ExpenseEdit.module.css";
 import Button from "./Button";
 import { useNotifications } from "./Notifications";
+import { AuthenticationContext } from './AccountOnly';
 
 function ExpenseForm({ expense, onSave, disabled, onDelete }) {
   const [changes, setChanges] = useState({});
@@ -18,6 +19,7 @@ function ExpenseForm({ expense, onSave, disabled, onDelete }) {
   }
 
   const formData = {
+    id: expense.id,
     ...expense,
     ...changes,
   };
@@ -96,12 +98,13 @@ function ExpenseEdit() {
   const [isSaving, setSaving] = useState(false);
   const [isDeleting, setDeleting] = useState(false);
   const { notifyError } = useNotifications();
+  const authState = useContext(AuthenticationContext)
 
   useEffect(
     function () {
       async function loadExpense() {
         try {
-          const response = await request(`/expenses/${id}`, {
+          const response = await request(`/users/${authState.userId}/accounts/${authState.accountId}/expenses/${id}`, {
             method: "GET",
           });
           if (response.ok) {
@@ -125,10 +128,11 @@ function ExpenseEdit() {
   async function handleSave(changes) {
     try {
       setSaving(true);
+      const baseUrl = `/users/${authState.userId}/accounts/${authState.accountId}`
       const url = expense.id ? `/expenses/${expense.id}` : "/expenses";
       const method = expense.id ? "PATCH" : "POST";
       const body = expense.id ? changes : { ...defaultExpenseData, ...changes };
-      const response = await request(url, {
+      const response = await request(`${baseUrl}${url}`, {
         method,
         body,
       });
@@ -149,7 +153,7 @@ function ExpenseEdit() {
   async function handleDelete() {
     setDeleting(true);
     try {
-      const response = await request(`/expenses/${expense.id}`, {
+      const response = await request(`/users/${authState.userId}/accounts/${authState.accountId}/expenses/${expense.id}`, {
         method: "DELETE",
       });
       if (response.ok) {

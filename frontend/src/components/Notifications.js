@@ -1,4 +1,4 @@
-import React, { useContext, createContext, useState, useMemo } from "react";
+import React, { useContext, createContext, useState, useMemo, useEffect } from "react";
 import styles from "./Notifications.module.css";
 
 const NotificationContext = createContext({
@@ -44,6 +44,10 @@ export default function Notifications({ children }) {
     [setNotification]
   );
 
+  useEffect(() => {
+    setTimeout(() => setNotification(null), 5000)
+  }, [notification])
+
   return (
     <NotificationContext.Provider value={contextValue}>
       {notification && (
@@ -62,6 +66,7 @@ function useNotifications() {
   const context = useContext(NotificationContext);
   return {
     notifyError: (message) => context.notify({ type: "error", message }),
+    notifyInfo: (message) => context.notify({ type: "info", message })
   };
 }
 
