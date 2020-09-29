@@ -1,16 +1,12 @@
 # frozen_string_literal: true
 
-class Expense < ApplicationRecord
-  validates :amount, :date, :description, presence: true
-  validates :amount, numericality: { greater_than: 0, only_integer: true }
+FactoryBot.define do
+  factory :expense do
+    description { "Test description" }
+    amount { 200 }
+    date { Date.today }
 
-  belongs_to :account
-  before_create :balance_account!
-
-  private
-
-  def balance_account!
-    account.update!(balance: account.balance - amount) if valid?
+    account
   end
 end
 
