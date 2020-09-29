@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import LoadingIndicator from "./LoadingIndicator";
 import ErrorMessage from "./ErrorMessage";
 import request from "../request";
 import styles from "./ExpensesPage.module.css";
 import Button from "./Button";
+import { AuthenticationContext } from './AccountOnly';
 
 function ExpenseRow({ expense }) {
   return (
     <li className={styles.item}>
       <Link to={`/expense/${expense.id}`} className={styles.itemInner}>
-        <div className={styles.descriptionText}>{expense.description}</div>
-        <div className={styles.amountText}>${expense.amount.toFixed(2)}</div>
+        <div className={styles.descriptionText}>{expense.attributes.description}</div>
+        <div className={styles.amountText}>${expense.attributes.amount.toFixed(2)}</div>
       </Link>
     </li>
   );
@@ -47,14 +48,15 @@ function ExpenseList({ expenses }) {
 function ExpensesPage() {
   const [expenses, setExpenses] = useState([]);
   const [status, setStatus] = useState("loading");
+  const authState = useContext(AuthenticationContext)
 
   useEffect(function () {
     async function loadExpenses() {
-      const response = await request("/expenses", {
+      const response = await request(`/users/${authState.userId}/accounts/${authState.accountId}/expenses`, {
         method: "GET",
       });
       if (response.ok) {
-        setExpenses(response.body);
+        setExpenses(response.body.data);
         setStatus("loaded");
       } else {
         setStatus("error");

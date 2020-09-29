@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import request from "../request";
 import { useNotifications } from "./Notifications";
 /**
- * I created a user, account resource that scopes expenses to both user & account
- * with this HOC I intend to get the current user or create one and the accounts
- * set up so the application works
+ * I created a user, account resource  [in the API] that scopes expenses to user's accounts.
+ * with this HOC I intend to get the current user OR CREATE one and the corresponing accounts
+ * so that you can test this seamlessly
  */
+
+export const AuthenticationContext = React.createContext();
 
 export const AccountOnly = ({ children }) => {
   const authenticationState = localStorage.getItem("Authentication::State");
@@ -14,7 +16,6 @@ export const AccountOnly = ({ children }) => {
     : null;
   const [authState, setAuthState] = useState(parsedAuthState);
   const { notifyInfo } = useNotifications();
-  const AuthenticationContext = React.createContext();
 
   useEffect(() => {
     const registerUserAndAccount = async () => {
