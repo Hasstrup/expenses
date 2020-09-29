@@ -9,7 +9,6 @@ RSpec.describe Account, type: :model do
     end
 
     it { should validate_presence_of(:name) }
-    it { should validate_numericality_of(:balance) }
     it { should validate_numericality_of(:number) }
   end
 

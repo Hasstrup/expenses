@@ -10,14 +10,7 @@ class Expense < ApplicationRecord
   private
 
   def balance_account!
-    ActiveRecord::Base.transaction do
-      account.update!(balance: account.balance - amount)
-      # moving this to controller
-      if account_id_changed?
-        previous_account = Account.find(account_id_was) if account_id_was
-        previous_account.update!(balance: previous_account.balance + amount)
-      end
-    end
+    account.update!(balance: account.balance - amount) if valid?
   end
 end
 

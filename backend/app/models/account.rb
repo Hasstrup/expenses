@@ -8,7 +8,7 @@ class Account < ApplicationRecord
   validates :balance, presence: true, numericality: {
     greater_than: 0,
     only_integer: true,
-    message: "Balance can't be negative",
+    message: "can't be negative",
   }
 
   belongs_to :user

@@ -2,21 +2,26 @@
 
 class ExpensesController < ApplicationController
   def index
-    render json: Expense.order(date: :desc)
+    render json: ExpenseSerializer.new(account.expenses.order(date: :desc))
   end
 
-  def shows
-    render json: expense
+  def show
+    render json: ExpenseSerializer.new(expense)
   end
 
   def create
-    expense = Expense.create!(expense_params)
-    render json: expense
+    expense = account.expenses.create!(expense_params)
+    render json: ExpenseSerializer.new(expense), status: :created
   end
 
   def update
-    expense.update!(expense_params)
-    render json: expense
+    ActiveRecord::Base.transaction do
+      expense.assign_attributes(expense_params)
+      balance_accounts(prev_account_id: expense.account_id_was) if expense.account_id_changed?
+      expense.save!
+    end
+
+    render json: ExpenseSerializer.new(expense)
   end
 
   def destroy
@@ -26,10 +31,25 @@ class ExpensesController < ApplicationController
   private
 
   def expense_params
-    params.permit(:amount, :date, :description)
+    params.require(:expense).permit(:amount, :date, :description, :account_id)
+  end
+
+  def account
+    @account ||= user.accounts.find(params[:account_id])
+  end
+
+  def user
+    @user ||= User.find(params[:user_id])
   end
 
   def expense
-    @expense ||= Expense.find(params[:id])
+    @expense ||= account.expenses.find(params[:id])
+  end
+
+  def balance_accounts(prev_account_id:)
+    prev_account = user.accounts.find(prev_account_id)
+    current_account = user.accounts.find(expense.account_id)
+    prev_account.update(balance: prev_account.balance + expense.amount)
+    current_account.update(balance: current_account.balance - expense.amount)
   end
 end
